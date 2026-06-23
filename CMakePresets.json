@@ -1,0 +1,97 @@
+{
+  "version": 8,
+  "configurePresets": [
+    {
+      "name": "vcpkg",
+      "hidden": true,
+      "description": "Sets Ninja generator, build and install directory",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+      }
+    },
+    {
+      "name": "asan",
+      "displayName": "Debug + ASan/UBSan",
+      "inherits": "vcpkg",
+      "cacheVariables": {
+        "SONIC_TESTS_USES_ASAN": "ON"
+      }
+    },
+    {
+      "name": "tsan",
+      "displayName": "Debug + TSan",
+      "inherits": "vcpkg",
+      "cacheVariables": {
+        "SONIC_TESTS_USES_TSAN": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "vcpkg",
+      "displayName": "Build Tests",
+      "jobs": 8,
+      "cleanFirst": false
+    },
+    {
+      "name": "asan",
+      "configurePreset": "asan",
+      "displayName": "Build Tests with address sanitizer",
+      "jobs": 8,
+      "cleanFirst": false
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan",
+      "displayName": "Build Tests with thread sanitizer",
+      "jobs": 8,
+      "cleanFirst": false
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "vcpkg",
+      "displayName": "Run Debug Tests",
+      "description": "Runs all unit tests with verbose logging on failure",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "asan",
+      "configurePreset": "asan",
+      "displayName": "Run Tests with address sanitizer",
+      "description": "Runs all unit tests with verbose logging on failure with address sanitizer",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan",
+      "displayName": "Run Tests with address sanitizer",
+      "description": "Runs all unit tests with verbose logging on failure with thread sanitizer",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    }
+  ]
+}
