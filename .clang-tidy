@@ -45,3 +45,25 @@ CheckOptions:
 
   - key: readability-identifier-naming.MacroDefinitionCase
     value: UPPER_CASE
+
+    # Global non-constant variables: snake_case
+  - key: readability-identifier-naming.GlobalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.GlobalPointerCase
+    value: lower_case
+
+  # Global constants: kCamelCase
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.GlobalConstantPrefix
+    value: k
+
+  - key: readability-identifier-naming.GlobalConstexprVariableCase
+    value: CamelCase
+  - key: readability-identifier-naming.GlobalConstexprVariablePrefix
+    value: k
+
+  - key: readability-identifier-naming.GlobalConstantPointerCase
+    value: CamelCase
+  - key: readability-identifier-naming.GlobalConstantPointerPrefix
+    value: k
