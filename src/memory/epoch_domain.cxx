@@ -1,6 +1,6 @@
 #include "epoch_domain.hxx"
 
-#include <new>
+#include <jemalloc/jemalloc.h>
 
 #include "../include/utils.hxx"
 
@@ -70,7 +70,8 @@ retry:
 }
 
 EpochParticipant* EpochDomain::Register() {
-  EpochParticipant* thrd_rec = new (std::nothrow) EpochParticipant();
+  auto* thrd_rec =
+      reinterpret_cast<EpochParticipant*>(je_malloc(sizeof(EpochParticipant)));
   if (thrd_rec == nullptr) return nullptr;
 
   PushFront(thrd_rec);
