@@ -67,3 +67,11 @@ CheckOptions:
     value: CamelCase
   - key: readability-identifier-naming.GlobalConstantPointerPrefix
     value: k
+
+    # Target rule for 'const' local variables specifically (e.g., camelBack with a prefix)
+  - key: readability-identifier-naming.LocalConstantCase
+    value: lower_case
+  - key: readability-identifier-naming.LocalConstantPrefix
+    value:
+  - key: readability-identifier-naming.LocalConstantSuffix
+    value:
