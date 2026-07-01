@@ -190,7 +190,7 @@ class SCQ {
         const std::uint64_t slot = Slot(tail);
 
       reload:
-        std::uint64_t old = entries_[slot].load(std::memory_order_relaxed);
+        std::uint64_t old = entries_[slot].load(std::memory_order_acquire);
         const std::uint32_t old_cycle = Cycle(old);
 
         if (CycleLess(old_cycle, tail_cycle) && Index(old) == kIndexNil &&
@@ -247,7 +247,7 @@ class SCQ {
 
         if (CycleLess(old_cycle, head_cycle)) {
           if (!entries_[slot].compare_exchange_weak(
-                  old, desired, std::memory_order_relaxed,
+                  old, desired, std::memory_order_release,
                   std::memory_order_relaxed)) {
             goto reload;
           }
