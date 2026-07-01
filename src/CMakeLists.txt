@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 4.1.0)
 
+# Find jemalloc provided by vcpkg
+find_package(jemalloc CONFIG REQUIRED)
+
 file(GLOB_RECURSE lib_sources CONFIGURE_DEPENDS
   "${CMAKE_CURRENT_SOURCE_DIR}/*.cxx")
 
@@ -8,6 +11,11 @@ add_library(libsonic STATIC ${lib_sources})
 set_target_properties(libsonic PROPERTIES EXPORT_COMPILE_COMMANDS ON)
 target_compile_features(libsonic PRIVATE cxx_std_20)
 target_include_directories(libsonic PUBLIC "${CMAKE_SOURCE_DIR}/include")
+target_link_libraries(libsonic
+  PRIVATE
+  jemalloc::jemalloc
+)
+
 if(SONIC_BUILD_TESTS)
   find_package(GTest CONFIG REQUIRED)
 
